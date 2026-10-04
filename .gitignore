@@ -1,0 +1,12 @@
+.venv/
+vendor/attune/models/
+fixtures/audio/
+out/
+__pycache__/
+*.pyc
+models/
+web/audio/
+web/listening-score.html
+.env
+logs/
+web/*.lock
