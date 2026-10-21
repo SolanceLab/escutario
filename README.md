@@ -14,7 +14,7 @@ Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg,
 
 ## Install
 
-Escutário is run from a checkout; there is no plugin or package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`).
+Escutário is run from a checkout; there is no plugin or package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
 
 1. Clone the repository and go into it.
 2. Run `make install`. It reads `requirements.txt` and installs the Python packages (librosa, torchcrepe, demucs, basic-pitch and the rest). To keep them separate, make a virtual environment first (`python3 -m venv .venv`); `make` uses it.
@@ -35,6 +35,8 @@ make test                                                                  # run
 | Server address | Where your Escutário server answers |
 | Key | The key your server expects |
 | `GEMINI_API_KEY` | Optional: only for the words step |
+| `ESCUTARIO_YT_DLP` | Optional: absolute path to your yt-dlp. Default `/opt/homebrew/bin/yt-dlp` |
+| `ESCUTARIO_FFPROBE` | Optional: absolute path to your ffprobe. Default `/opt/homebrew/bin/ffprobe` |
 
 The worker (below) also reads `SOLANCE_API_BASE` and `ESCUTARIO_API_KEY`. See CONTRACT.md.
 

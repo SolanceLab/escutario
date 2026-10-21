@@ -477,3 +477,55 @@ def test_smoke_url_validation_pure_functions():
     assert fetch._is_short_form("instagram", "https://www.instagram.com/p/abc/") is True
     assert fetch._is_short_form("youtube", "https://www.youtube.com/shorts/abc123") is True
     assert fetch._is_short_form("youtube", "https://www.youtube.com/watch?v=abc123") is False
+
+
+# --- binary path overrides ---------------------------------------------------
+
+
+def test_binary_default_unchanged():
+    assert fetch.YT_DLP_DEFAULT == "/opt/homebrew/bin/yt-dlp"
+    assert fetch.FFPROBE_DEFAULT == "/opt/homebrew/bin/ffprobe"
+    assert fetch._binary(fetch.YT_DLP_DEFAULT, fetch.YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP") == fetch.YT_DLP_DEFAULT
+
+
+def test_binary_override_existing_absolute_file(tmp_path):
+    exe = tmp_path / "yt-dlp"
+    exe.write_text("")
+    exe.chmod(0o755)
+    assert fetch._binary(str(exe), fetch.YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP") == str(exe)
+
+
+def test_binary_override_relative_rejected_with_variable_name():
+    with pytest.raises(fetch.FetchError, match="ESCUTARIO_FFPROBE"):
+        fetch._binary("bin/ffprobe", fetch.FFPROBE_DEFAULT, "ESCUTARIO_FFPROBE")
+
+
+def test_binary_override_missing_file_rejected(tmp_path):
+    with pytest.raises(fetch.FetchError, match="ESCUTARIO_YT_DLP"):
+        fetch._binary(str(tmp_path / "nope"), fetch.YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP")
+
+
+def test_binary_override_non_executable_rejected(tmp_path):
+    exe = tmp_path / "yt-dlp"
+    exe.write_text("")
+    exe.chmod(0o644)
+    with pytest.raises(fetch.FetchError, match="ESCUTARIO_YT_DLP.*not executable"):
+        fetch._binary(str(exe), fetch.YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP")
+
+
+def test_run_permission_error_becomes_fetch_error(tmp_path):
+    exe = tmp_path / "tool"
+    exe.write_text("")
+    exe.chmod(0o644)
+    with pytest.raises(fetch.FetchError, match="could not be run"):
+        fetch._run([str(exe)], timeout=5)
+
+
+def test_ffprobe_invalid_override_degrades_to_none(tmp_path, monkeypatch):
+    monkeypatch.setattr(fetch, "FFPROBE_PATH", "relative/ffprobe")
+    assert fetch._ffprobe_duration(tmp_path / "a.mp3") is None
+    bad = tmp_path / "ffprobe"
+    bad.write_text("")
+    bad.chmod(0o644)
+    monkeypatch.setattr(fetch, "FFPROBE_PATH", str(bad))
+    assert fetch._ffprobe_duration(tmp_path / "a.mp3") is None

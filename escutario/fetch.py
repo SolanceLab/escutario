@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import math
+import os
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -18,8 +19,26 @@ from urllib.parse import urlparse
 
 # --- external binaries ------------------------------------------------------
 
-YT_DLP_PATH = "/opt/homebrew/bin/yt-dlp"  # system install, per CONTRACT.md — not resolved via PATH
-FFPROBE_PATH = "/opt/homebrew/bin/ffprobe"  # sibling of the ffmpeg audio.py already depends on
+YT_DLP_DEFAULT = "/opt/homebrew/bin/yt-dlp"  # system install, per CONTRACT.md — not resolved via PATH
+FFPROBE_DEFAULT = "/opt/homebrew/bin/ffprobe"  # sibling of the ffmpeg audio.py already depends on
+# A stranger on another machine can point at their own install with an ABSOLUTE
+# path in these variables. Still never a PATH lookup, so a planted binary cannot run.
+YT_DLP_PATH = os.environ.get("ESCUTARIO_YT_DLP") or YT_DLP_DEFAULT
+FFPROBE_PATH = os.environ.get("ESCUTARIO_FFPROBE") or FFPROBE_DEFAULT
+
+
+def _binary(path: str, default: str, var: str) -> str:
+    """Return path for use; an overridden (non-default) path must be an absolute existing file."""
+    if path == default:
+        return path
+    if not os.path.isabs(path):
+        raise FetchError(f"{var} must be an absolute path, got {path!r}")
+    if not os.path.isfile(path):
+        raise FetchError(f"{var} does not point to an existing file: {path}")
+    if not os.access(path, os.X_OK):
+        raise FetchError(f"{var} points to a file that is not executable: {path}")
+    return path
+
 
 # --- policy constants (starting values, calibrate later) -------------------
 
@@ -123,12 +142,14 @@ def _run(cmd: list[str], *, timeout: float) -> subprocess.CompletedProcess:
         raise FetchError(f"timed out after {timeout}s: {' '.join(cmd)}") from exc
     except FileNotFoundError as exc:
         raise FetchError(f"binary not found: {cmd[0]}") from exc
+    except OSError as exc:  # PermissionError, exec format error, ...
+        raise FetchError(f"binary could not be run: {cmd[0]} ({exc})") from exc
 
 
 def _yt_dlp_metadata(url: str) -> dict:
     """Metadata only — --dump-json simulates and never downloads."""
     proc = _run(
-        [YT_DLP_PATH, "--dump-json", "--no-playlist", "--no-warnings", "--ignore-config", url],
+        [_binary(YT_DLP_PATH, YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP"), "--dump-json", "--no-playlist", "--no-warnings", "--ignore-config", url],
         timeout=METADATA_TIMEOUT_S,
     )
     if proc.returncode != 0:
@@ -144,7 +165,7 @@ def _yt_dlp_metadata(url: str) -> dict:
 
 def _yt_dlp_search(query: str, n: int) -> list[dict]:
     proc = _run(
-        [YT_DLP_PATH, "--dump-json", "--flat-playlist", "--no-warnings", "--ignore-config", f"ytsearch{n}:{query}"],
+        [_binary(YT_DLP_PATH, YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP"), "--dump-json", "--flat-playlist", "--no-warnings", "--ignore-config", f"ytsearch{n}:{query}"],
         timeout=METADATA_TIMEOUT_S,
     )
     if proc.returncode != 0:
@@ -166,7 +187,7 @@ def _yt_dlp_search(query: str, n: int) -> list[dict]:
 def _yt_dlp_download(url: str, out_dir: Path) -> Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     cmd = [
-        YT_DLP_PATH,
+        _binary(YT_DLP_PATH, YT_DLP_DEFAULT, "ESCUTARIO_YT_DLP"),
         "-x", "--audio-format", "wav",
         "--no-playlist",
         "--max-filesize", MAX_FILESIZE,
@@ -194,8 +215,8 @@ def _yt_dlp_download(url: str, out_dir: Path) -> Path:
 
 def _ffprobe_duration(path: Path) -> float | None:
     """Best-effort duration probe for a local file. None if ffprobe can't tell us."""
-    cmd = [FFPROBE_PATH, "-v", "error", "-show_entries", "format=duration", "-of", "json", str(path)]
     try:
+        cmd = [_binary(FFPROBE_PATH, FFPROBE_DEFAULT, "ESCUTARIO_FFPROBE"), "-v", "error", "-show_entries", "format=duration", "-of", "json", str(path)]
         proc = _run(cmd, timeout=PROBE_TIMEOUT_S)
     except FetchError:
         return None

@@ -31,3 +31,5 @@ Named here, never valued.
 | `ESCUTARIO_API_KEY` | Worker only: the worker's own key (secret) |
 | `GEMINI_API_KEY` | Words step only: Google Gemini key (secret) |
 | `ESCUTARIO_ENV_FILE` | Optional path to the `.env` file holding the three above |
+| `ESCUTARIO_YT_DLP` | Optional: absolute path to yt-dlp (default is the Homebrew install) |
+| `ESCUTARIO_FFPROBE` | Optional: absolute path to ffprobe (default is the Homebrew install) |
