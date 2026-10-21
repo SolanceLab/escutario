@@ -2,10 +2,10 @@
 
 All notable changes to Escutário are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.2.0]
 
 ### Changed
-- Release standard: files and README brought to the House of Solance layout; plugin manifest, `make test` and CI added; references to people and private tools neutralised in comments and docs. No behaviour changed.
+- Release standard: files and README brought to the House of Solance layout; `requirements.txt`, `make install`, `make test` and CI added; references to people and private tools neutralised in comments and docs. No behaviour changed. Earlier versions keep their old licence.
 
 ## [0.1.0] - 2026-10-04
 

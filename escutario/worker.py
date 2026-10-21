@@ -1,5 +1,5 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
-"""The listen worker — the Study Mac's side of the House's listen request line.
+"""The listen worker — the worker machine's side of the House's listen request line.
 
 Run by launchd every minute (`python -m escutario.worker --once`). Each run:
   1. hears files the owner dropped into iCloud Drive/Escutário, then moves them to Heard/;
@@ -260,7 +260,7 @@ def words_for_song(song: dict, *, again: bool = False, out_root: Path | None = N
         raise ValueError("the song's folder resolves outside out/")
     wav, viz, saved = song_dir / "source.wav", song_dir / "viz.json", song_dir / "words.json"
     if not (_regular(wav) and _regular(viz)):
-        raise FileNotFoundError("the recording is no longer on the Study Mac; ask for it to be heard again first")
+        raise FileNotFoundError("the recording is no longer on the worker machine; ask for it to be heard again first")
     entry = json.loads(viz.read_text())
     words = None
     if not again and _regular(saved):

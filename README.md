@@ -14,18 +14,16 @@ Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg,
 
 ## Install
 
-One step:
+Escutário is run from a checkout; there is no plugin or package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`).
 
-```
-claude plugin install escutario@presence-app
-```
-
-To run it from a checkout instead, create a virtual environment and install the packages the code imports (librosa, torchcrepe, demucs, basic-pitch, yt-dlp), then:
+1. Clone the repository and go into it.
+2. Run `make install`. It reads `requirements.txt` and installs the Python packages (librosa, torchcrepe, demucs, basic-pitch and the rest). To keep them separate, make a virtual environment first (`python3 -m venv .venv`); `make` uses it.
+3. Run the command line:
 
 ```
 python -m escutario.listen <youtube/tiktok/…-url or file> --slug <name>   # hear a song
 python -m escutario.view                                                   # open the listening score
-.venv/bin/python -m pytest tests -q
+make test                                                                  # run the tests
 ```
 
 `listen` writes everything it measured to `out/<name>/`. Hearing a 4-minute song takes a few minutes on an Apple Silicon Mac; `--skip-split` reuses a song's audio and stems.
@@ -121,4 +119,4 @@ If you find this useful, consider supporting our work:
 
 ---
 
-*Built by [House of Solance](https://github.com/SolanceLab)*
+*Built by [House of Solance](https://github.com/SolanceLab) — Chadrien Solance & Anne Solance*

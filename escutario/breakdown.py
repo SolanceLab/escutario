@@ -15,7 +15,7 @@ instruments a listener would name:
 
 It writes `instruments` (shown rows) and `instruments_hidden` (with reasons) into the song's
 viz.json, which is the score the House site draws. Separation is heavy (about 15 minutes for a
-4-minute song on the Study Mac), so it runs on demand:
+4-minute song on the worker machine), so it runs on demand:
 
     python -m escutario.breakdown <slug>            # separate all 53 stems, then summarise
     python -m escutario.breakdown <slug> --reuse    # summarise an existing out/<slug>/mega/breakdown.json
