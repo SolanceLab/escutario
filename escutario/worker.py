@@ -15,7 +15,6 @@ an audio/video extension; anything else is refused and reported back, never read
 from __future__ import annotations
 
 import argparse
-import fcntl
 import hashlib
 import json
 import os
@@ -29,6 +28,8 @@ import urllib.error
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path
+
+from escutario import _lock
 
 HTTP_TIMEOUT_S = 30
 SETTLE_S = 20.0                     # a dropped file must be unchanged this long (iCloud may still be syncing it)
@@ -129,7 +130,7 @@ def check_env_file(path: Path) -> None:
     st = os.lstat(path)
     if stat.S_ISLNK(st.st_mode) or not stat.S_ISREG(st.st_mode):
         raise RuntimeError(f"{path.name} must be a regular file, not a link")
-    if st.st_uid != os.getuid() or st.st_mode & 0o077:
+    if hasattr(os, "getuid") and (st.st_uid != os.getuid() or st.st_mode & 0o077):  # POSIX only; Windows has no mode bits
         raise RuntimeError(f"{path.name} must be owned by you and private (chmod 600)")
 
 
@@ -565,7 +566,7 @@ def run_once() -> int:
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
     with open(LOCK_PATH, "a") as lock:   # 'a' never truncates
         try:
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            _lock.acquire(lock, blocking=False)
         except BlockingIOError:
             return 0  # a hearing is already running; this minute's run steps aside
         DROP_DIR.mkdir(parents=True, exist_ok=True)

@@ -6,6 +6,7 @@ All notable changes to Escutário are recorded here. The format follows [Keep a 
 
 ### Changed
 - Release standard: files and README brought to the House of Solance layout; `requirements.txt`, `make install`, `make test` and CI added; references to people and private tools neutralised in comments and docs. No behaviour changed. Earlier versions keep their old licence.
+- Runs on Windows too: file locks and memory reporting no longer need Mac/Linux-only modules at import (macOS and Linux behave as before).
 
 ## [0.1.0] - 2026-10-04
 

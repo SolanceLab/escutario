@@ -26,7 +26,6 @@ from __future__ import annotations
 import argparse
 import base64
 import datetime as dt
-import fcntl
 import json
 import os
 import re
@@ -36,6 +35,8 @@ import tempfile
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+from escutario import _lock
 
 API_ROOT = "https://generativelanguage.googleapis.com/v1beta/models"
 HTTP_TIMEOUT_S = 240
@@ -104,7 +105,7 @@ def take_from_daily_cap(path: Path = USAGE_PATH, cap: int = DAILY_CAP, today: st
     today = today or dt.date.today().isoformat()
     path.parent.mkdir(parents=True, exist_ok=True)
     with open(path.with_name(path.name + ".lock"), "a") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
+        _lock.acquire(lock)
         data: dict = {}
         if path.exists():
             try:

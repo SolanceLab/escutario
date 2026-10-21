@@ -10,11 +10,13 @@ Numbers, not moods: every reading carries a confidence, and the instrument never
 
 ## What you need
 
-Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg, and an Apple Silicon Mac for reasonable speed (hearing a 4-minute song takes a few minutes). Model weights are downloaded on first use and are not included. The optional words step needs a Google Gemini key.
+Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg, and a Mac (Apple Silicon is fastest), Linux or Windows computer for reasonable speed (hearing a 4-minute song takes a few minutes). Model weights are downloaded on first use and are not included. The optional words step needs a Google Gemini key.
 
 ## Install
 
 Escutário is run from a checkout; there is no plugin or package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
+
+**On Windows** there is no `make`. Install ffmpeg and yt-dlp, set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to the absolute paths of their `.exe` files, then from the checkout run `python -m pip install -r requirements.txt` and, to test, `python -m pytest tests`.
 
 1. Clone the repository and go into it.
 2. Run `make install`. It reads `requirements.txt` and installs the Python packages (librosa, torchcrepe, demucs, basic-pitch and the rest). To keep them separate, make a virtual environment first (`python3 -m venv .venv`); `make` uses it.
@@ -50,6 +52,8 @@ The worker (below) also reads `SOLANCE_API_BASE` and `ESCUTARIO_API_KEY`. See CO
 | `python -m escutario.worker` | Optional queue worker for a compatible API |
 
 ## Limits
+
+Windows is supported but has not been tested on a real Windows machine: file locking and memory reporting are written to fall back safely there (peak memory is reported as empty), and the tests simulate it. The optional time-stretch step looks for Rubber Band at a Homebrew path and the worker's launchd example is macOS-only.
 
 Thresholds are starting values tuned on two songs and one listener's corrections; they are named constants with the reason beside each. Grit is not calibrated. Quiet background vocal layers are undercounted. Sustain merging can occasionally join a re-sung note. Calibration against a producer's own multitrack stems is the next step.
 

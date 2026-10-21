@@ -16,7 +16,6 @@ lazily (pitch.py and notes.py load torch / onnx) and can be swapped for fakes in
 from __future__ import annotations
 
 import argparse
-import fcntl
 import json
 import math
 import os
@@ -30,6 +29,7 @@ from typing import Any, Callable
 
 import numpy as np
 
+from escutario import _lock
 from escutario.types import PitchTrack
 
 STEM_DURATION_TOLERANCE_S = 1.0
@@ -399,7 +399,7 @@ def merge_into_viz(viz_path: str | Path, slug: str, entry: dict) -> None:
     viz_path.parent.mkdir(parents=True, exist_ok=True)
     # hold a lock across read-modify-replace so two listens can't erase each other's song
     with open(viz_path.with_name(viz_path.name + ".lock"), "w") as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
+        _lock.acquire(lock)
         data = json.loads(viz_path.read_text()) if viz_path.exists() and viz_path.stat().st_size else {}
         if not isinstance(data, dict):
             raise ValueError(f"{viz_path} is not a JSON object of songs")

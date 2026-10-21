@@ -24,13 +24,17 @@ from __future__ import annotations
 import hashlib
 import http.client
 import os
-import resource
 import tempfile
 import time
 import urllib.request
 import warnings
 from dataclasses import dataclass
 from pathlib import Path
+
+try:
+    import resource  # POSIX only
+except ImportError:  # Windows
+    resource = None  # type: ignore[assignment]
 
 import numpy as np
 import yaml
@@ -328,7 +332,9 @@ def subtract_stem(mix: np.ndarray, target: np.ndarray) -> np.ndarray:
     return out
 
 
-def peak_rss_bytes() -> int:
+def peak_rss_bytes() -> int | None:
+    if resource is None:  # Windows has no resource module
+        return None
     r = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     return int(r) if os.uname().sysname == "Darwin" else int(r) * 1024  # macOS reports bytes, Linux KiB
 
