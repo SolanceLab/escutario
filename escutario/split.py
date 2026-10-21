@@ -1,7 +1,7 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Escutário — track splitting.
 
-Anne plays violin by ear and wants to isolate an instrument from a song to
+A player who learns by ear wants to isolate an instrument from a song to
 learn it and play along. This module owns source separation: split a mix
 into stems and build "everything but X" backing tracks.
 
@@ -194,7 +194,7 @@ def minus(result: SplitResult, target: str, out_dir: Path) -> Path:
     """Write `<out_dir>/minus_<target>.wav` = sum of every stem except `target`.
 
     This is the play-along backing track: everything except the instrument
-    Anne is isolating. Peak-safe — scales down only if the summed peak would
+    being isolated. Peak-safe — scales down only if the summed peak would
     exceed PEAK_CEILING, and records the gain applied in `result.notes`.
     """
     if target not in result.stems:

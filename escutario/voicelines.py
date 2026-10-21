@@ -4,7 +4,7 @@
 Input is the note list from a polyphonic transcription of the separated vocal
 track (basic-pitch: dicts with start_s, dur_s, midi, salience).
 
-Two things that look alike in that list and are not (Anne, 16 Sep 2026, the
+Two things that look alike in that list and are not (a listener, 16 Sep 2026, the
 mashup at 0:32: "you mark 2 voices at once, but I don't hear it? It's a riff,
 a cengkok"):
 - A second voice: two notes sounding together for a while, at an interval a
@@ -39,7 +39,7 @@ RIFF_MAX_RANGE = 9            # an ornament circles a band up to a sixth (semito
 RIFF_STEPWISE_SHARE = 0.75    # share of moves that are neighbour steps — starting value
 RIFF_MIN_NOTES = 5            # at least this many notes — starting value
 RIFF_MAX_MEDIAN_NOTE_S = 0.5  # most of its notes are short — set 16 Sep: the cengkok's median note is 0.42 s once sustain pieces are merged; slow melodies are still excluded by RIFF_MIN_RATE
-# Calibrated on Anne's cengkok at 0:30.8-0:36.5 in the mashup: 13 notes circling A3-E3 over ~6 s,
+# Calibrated on the listener's cengkok at 0:30.8-0:36.5 in the mashup: 13 notes circling A3-E3 over ~6 s,
 # mostly one-semitone steps with turns, some notes held 0.5-0.9 s in between. Speed alone would miss it.
 
 NOTE_NAMES = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]

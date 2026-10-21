@@ -15,7 +15,7 @@ Two rules keep it honest:
 
 Privacy: this sends audio to Google, so it never runs as part of hearing a song. It runs only for an
 explicit `words` request (escutario_words), made for a song already heard; a song from a private
-file can be sent only by Penthouse or the Study (solance-api decides). Cost: every call is counted
+file can be sent only by an owner-level room (solance-api decides). Cost: every call is counted
 in a daily cap that is written to disk BEFORE the request goes out, so a failed write refuses the call.
 
 Run by hand on a song Escutário already heard:  python -m escutario.words out/<slug>

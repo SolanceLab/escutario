@@ -2,6 +2,11 @@
 
 All notable changes to Escutário are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Release standard: files and README brought to the House of Solance layout; plugin manifest, `make test` and CI added; references to people and private tools neutralised in comments and docs. No behaviour changed.
+
 ## [0.1.0] - 2026-10-04
 
 First public release, under the PolyForm Noncommercial License 1.0.0.

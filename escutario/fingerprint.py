@@ -1,7 +1,7 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Sound fingerprints — so the same song is heard once, whatever the file is called.
 
-Anne dropped one song twice under two names (17 Sep). The files differed byte for byte (a different
+One song was dropped twice under two names (17 Sep). The files differed byte for byte (a different
 container and tags), so a file hash could not see it; the sound was identical. This fingerprint
 reads the sound itself: for each short frame it records, in 32 bits, whether energy rose or fell
 between neighbouring frequency bands compared with the frame before (the approach of Haitsma &

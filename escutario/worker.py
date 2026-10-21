@@ -2,7 +2,7 @@
 """The listen worker — the Study Mac's side of the House's listen request line.
 
 Run by launchd every minute (`python -m escutario.worker --once`). Each run:
-  1. hears files Anne dropped into iCloud Drive/Escutário, then moves them to Heard/;
+  1. hears files the owner dropped into iCloud Drive/Escutário, then moves them to Heard/;
   2. claims link/path requests other rooms queued through solance-api and hears those.
 Each hearing runs the full `listen` pipeline, builds the listening card and posts it to
 solance-api (`POST /escutario/heard`), where every room of the House can read it.
@@ -389,7 +389,7 @@ def remember_heard(song_id: str, *, digest: str | None, bits, title: str, hashes
 
 def process_drops(api: Api, drop_dir: Path = DROP_DIR, hear_fn=hear, hashes_path: Path | None = None,
                   prints_path: Path | None = None, print_fn=None) -> int:
-    """Hear what Anne dropped. The same song dropped again, under any name or in another container, is
+    """Hear what the owner dropped. The same song dropped again, under any name or in another container, is
     recognised (by its bytes, else by its sound) and set aside in Heard/ with a note, never heard twice."""
     hashes_path = hashes_path or DROP_HASHES
     prints_path = prints_path or DROP_PRINTS
@@ -480,7 +480,7 @@ def process_requests(api: Api, hear_fn=hear, limit: int = MAX_REQUESTS_PER_RUN, 
                 except Exception as e:  # noqa: BLE001 — the card is safe; only duplicate detection for this song is lost
                     log(f"could not remember the sound of song {heard['id']}: {redact(e)}")
             if kind == "link" and heard.get("id"):
-                # a song from a link joins the gallery by itself; a Mac file waits for Anne to add it
+                # a song from a link joins the gallery by itself; a Mac file waits for the owner to add it
                 try:
                     api.call("POST", f"/escutario/songs/{heard['id']}/gallery", {})
                 except Exception as e:  # noqa: BLE001 — the card is already safe; the next run adds it

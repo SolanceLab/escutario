@@ -2,7 +2,7 @@
 """The instrument breakdown — which instruments are really in a song, and when each one plays.
 
 The six-stem split (vocals, drums, bass, guitar, piano, other) hides most of an arrangement inside
-"other": on Anne's mashup that meant the strings, the violin, the synth and the backing vocal. The
+"other": on the test mashup that meant the strings, the violin, the synth and the backing vocal. The
 MVSep Mega 53-stem BS-Roformer names far more, but its stems overlap and bleed: the same sound
 often lights up under two names (piano and keys moved together at r = 1.0, ukulele with strings at
 0.95, mandolin with violin at 0.9 on the mashup). This module turns the 53 raw stems into the

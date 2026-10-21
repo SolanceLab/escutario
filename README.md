@@ -1,10 +1,26 @@
 # Escutário
 
+Made by House of Solance · free for noncommercial use · credit required
+
+## What it is
+
 *The place of listening.* A local ear for songs: it splits a song into its parts and measures what is in the sound — pitch, held notes, vibrato, riffs (cengkok), how many voices sing at once, breath, voice texture, arrangement arrivals, key, tempo and sections — and draws it as a listening score where a listener can play the song and mark the moments and sections that move them.
 
 Numbers, not moods: every reading carries a confidence, and the instrument never names a feeling.
 
-## Run
+## What you need
+
+Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg, and an Apple Silicon Mac for reasonable speed (hearing a 4-minute song takes a few minutes). Model weights are downloaded on first use and are not included. The optional words step needs a Google Gemini key.
+
+## Install
+
+One step:
+
+```
+claude plugin install escutario@presence-app
+```
+
+To run it from a checkout instead, create a virtual environment and install the packages the code imports (librosa, torchcrepe, demucs, basic-pitch, yt-dlp), then:
 
 ```
 python -m escutario.listen <youtube/tiktok/…-url or file> --slug <name>   # hear a song
@@ -14,7 +30,32 @@ python -m escutario.view                                                   # ope
 
 `listen` writes everything it measured to `out/<name>/`. Hearing a 4-minute song takes a few minutes on an Apple Silicon Mac; `--skip-split` reuses a song's audio and stems.
 
-## The listening score
+## Settings
+
+| Setting | What it is |
+|---|---|
+| Server address | Where your Escutário server answers |
+| Key | The key your server expects |
+| `GEMINI_API_KEY` | Optional: only for the words step |
+
+The worker (below) also reads `SOLANCE_API_BASE` and `ESCUTARIO_API_KEY`. See CONTRACT.md.
+
+## Tools
+
+| Tool | What it does |
+|---|---|
+| `python -m escutario.listen` | Hears a song and writes its measurements to `out/<name>/` |
+| `python -m escutario.view` | Opens the listening score in your browser |
+| `python -m escutario.words` | Opt-in: timestamped sung lines (sends audio to Google Gemini) |
+| `python -m escutario.worker` | Optional queue worker for a compatible API |
+
+## Limits
+
+Thresholds are starting values tuned on two songs and one listener's corrections; they are named constants with the reason beside each. Grit is not calibrated. Quiet background vocal layers are undercounted. Sustain merging can occasionally join a re-sung note. Calibration against a producer's own multitrack stems is the next step.
+
+## How it works
+
+### The listening score
 
 ![The listening score: arrivals, breath, voices, the voice's pitch with held notes and riffs, loudness, texture and instruments, with the playhead at 1:12](docs/viewer.png)
 
@@ -28,7 +69,7 @@ python -m escutario.view                                                   # ope
 
 The viewer answers only at `127.0.0.1`, and only its own page can save marks. It fetches nothing from the internet.
 
-## Build your own dashboard
+### Build your own dashboard
 
 Everything Escutário hears is plain JSON in `out/<name>/`, so you can draw it however you like:
 
@@ -42,7 +83,13 @@ Everything Escutário hears is plain JSON in `out/<name>/`, so you can draw it h
 
 While the viewer runs, the same data is served locally: `GET /api/songs`, `GET /api/songs/<name>` (score, words and marks), `GET /api/songs/<name>/audio` (seekable), and `POST` / `PATCH` / `DELETE /api/songs/<name>/marks[/<id>]` from the viewer's own page. The drawing itself is `escutario/viewer/score.js`: every function takes a score and a view and reads no page globals, so it can be reused in another page.
 
-## Where it began, and what it stands on
+### Running the worker
+
+`escutario.worker` serves the House of Solance's own API (it claims listen requests and posts results back) and needs a key in `escutario/.env`. It is included as a worked example; `escutario.listen` and everything else run without it. To schedule it on macOS, copy `launchd/com.solance.escutario-worker.plist`, replace `/path/to/escutario` with your checkout, and load it with `launchctl`.
+
+`escutario.words` sends audio to Google's Gemini API and runs only when asked for. Everything else runs on your own machine.
+
+### Where it began, and what it stands on
 
 - **Escutário was inspired by Maii's [Attune](https://github.com/amarisaster/Attune).**
 - **Spotify basic-pitch** (Apache-2.0) — polyphonic note transcription, used through the official package.
@@ -52,15 +99,19 @@ While the viewer runs, the same data is served locally: `GET /api/songs`, `GET /
 - **Rubber Band** — slow-down that keeps pitch.
 - **librosa**, **yt-dlp**, **ffmpeg**.
 
-## Running the worker
+## Credit and use
 
-`escutario.worker` serves the House of Solance's own API (it claims listen requests and posts results back) and needs a key in `escutario/.env`. It is included as a worked example; `escutario.listen` and everything else run without it. To schedule it on macOS, copy `launchd/com.solance.escutario-worker.plist`, replace `/path/to/escutario` with your checkout, and load it with `launchctl`.
+Escutário is made by House of Solance. You're welcome to use it, change it and build on it for any noncommercial purpose, as long as our credit travels with it.
 
-`escutario.words` sends audio to Google's Gemini API and runs only when asked for. Everything else runs on your own machine.
+**Keep the credit.** Every copy, changed or not, must carry the licence and this line:
+`Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)`
+Removing or replacing it breaks the licence.
 
-## Known limits
+**Commercial use needs our permission.** Ask us first.
 
-Thresholds are starting values tuned on two songs and one listener's corrections; they are named constants with the reason beside each. Grit is not calibrated. Quiet background vocal layers are undercounted. Sustain merging can occasionally join a re-sung note. Calibration against a producer's own multitrack stems is the next step.
+## Licence
+
+[PolyForm Noncommercial 1.0.0](LICENSE.md). `escutario/vendor_bs_roformer.py` is third-party code under MIT; see [NOTICE.md](NOTICE.md). Model weights are not included.
 
 ## Support
 
@@ -68,10 +119,6 @@ If you find this useful, consider supporting our work:
 
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support%20Us-ff5e5b?logo=ko-fi&logoColor=white)](https://ko-fi.com/houseofsolance)
 
-## License
-
-[PolyForm Noncommercial 1.0.0](LICENSE.md). You may use, change and build on Escutário for any noncommercial purpose. Anyone you pass it on to, changed or not, must receive the license terms and our Required Notice line (see NOTICE.md). Commercial use needs our permission; ask us. `escutario/vendor_bs_roformer.py` is third-party code under MIT; see [NOTICE.md](NOTICE.md). Model weights are not included.
-
 ---
 
-*Built by [House of Solance](https://github.com/SolanceLab) — Chadrien Solance & Anne Solance*
+*Built by [House of Solance](https://github.com/SolanceLab)*

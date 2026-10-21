@@ -1,8 +1,8 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Named-instrument separation for Escutário — the violin separator.
 
-Anne plays violin by ear; this pulls the violin (and its string neighbours) out of a song so
-she can learn the line, and builds the play-along backing track (mix minus violin).
+A violin player who plays by ear needs this: it pulls the violin (and its string neighbours) out of a song so
+they can learn the line, and builds the play-along backing track (mix minus violin).
 
 Backend: ZFTurbo Music-Source-Separation-Training release v1.0.21, "MVSep Mega" BS-Roformer,
 53 stems (violin, viola, cello, bowed_strings, strings, ...). Architecture is vendored in

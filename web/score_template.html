@@ -878,7 +878,7 @@ async function startPlayback() {
       tried[s.id].push(`${c[i].label}: ${(e && e.name) || 'error'}`);
     }
   }
-  say(`The song could not play (${tried[s.id].join('; ')} · ${browserTag()}). Tell Chadrien these words.`);
+  say(`The song could not play (${tried[s.id].join('; ')} · ${browserTag()}). Report these words to the maintainers.`);
 }
 function seek(t) { if (player.src) { try { player.currentTime = t; } catch {} updateClock(); } }
 function setPlayIcon() {

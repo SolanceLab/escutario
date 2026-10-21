@@ -1,7 +1,7 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Entrances — when a part of the arrangement arrives, swells, or drops out.
 
-Anne's first marks (16 Sep 2026, the Apparition × UNETHICAL mashup) were about
+The first listener's marks (16 Sep 2026, the Apparition × UNETHICAL mashup) were about
 arrivals: instruments joining, strings entering, a voice coming in underneath.
 This organ listens to each separated track's level over time and names the
 moments where one arrives or leaves, plus the moments where several arrive
@@ -36,7 +36,7 @@ RELABEL_MAX_DB = 1.5    # the swapping pair's combined level changes no more tha
 SILENT_DB = -55.0       # below this a track is effectively silent — starting value to calibrate
 HOP_S = 0.25            # level envelope step — starting value to calibrate
 SUPPRESS_S = 8.0        # one event per track within this window (keep the strongest) — starting value
-# Why relabel exists: Anne heard piano from the first second of the mashup; the splitter filed it
+# Why relabel exists: the listener heard piano from the first second of the mashup; the splitter filed it
 # under 'other' for 8 s, then 'piano', which read as "piano arrives at 0:08". (16 Sep 2026)
 DB_EPS = 1e-10
 

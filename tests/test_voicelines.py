@@ -8,7 +8,7 @@ def n(name, start, dur, sal=0.7):
     return {"start_s": start, "dur_s": dur, "midi": NOTE[name], "salience": sal}
 
 
-# Anne's cengkok in the mashup at 0:30.8-0:36.5, exactly as basic-pitch reported it
+# the listener's cengkok in the mashup at 0:30.8-0:36.5, exactly as basic-pitch reported it
 CENGKOK = [
     n("A3", 30.77, 0.31, .72), n("G#3", 30.98, 0.34, .69), n("F#3", 31.29, 0.52, .62), n("E3", 32.04, 0.22, .52),
     n("F#3", 32.46, 0.13, .43), n("G#3", 32.60, 0.72, .74), n("G#4", 32.60, 0.35, .40), n("A3", 33.08, 0.14, .62),
@@ -27,13 +27,13 @@ def test_octave_overtone_is_removed():
     assert any(k["midi"] == NOTE["G#3"] and abs(k["start_s"] - 32.60) < 1e-6 for k in kept)
 
 
-def test_annes_cengkok_is_one_voice():
+def test_listeners_cengkok_is_one_voice():
     counts = count_voices(CENGKOK, 40)
     assert max(counts[int(30 / 0.1):int(37 / 0.1)]) == 1, counts[300:370]
     assert at(counts, 32.8) == 1
 
 
-def test_annes_cengkok_is_a_riff():
+def test_listeners_cengkok_is_a_riff():
     riffs = detect_riffs(CENGKOK)
     assert riffs, "the cengkok should be found"
     assert any(r["start_s"] <= 33.1 and r["end_s"] >= 33.2 for r in riffs), riffs

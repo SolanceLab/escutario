@@ -1,7 +1,7 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """wail.py — voice strength, texture and the wail.
 
-Measures, SEPARATELY, the acoustic components of what Anne hears as "wailing"
+Measures, SEPARATELY, the acoustic components of what a listener hears as "wailing"
 (tone + vocal strength) on a separated vocal stem:
 
 - register position   where in the singer's own range the song sits
@@ -14,7 +14,7 @@ Measures, SEPARATELY, the acoustic components of what Anne hears as "wailing"
                       whether low HNR happens loud (grit) or quiet (breathy)
 
 There is deliberately NO combined "wail score": the components get calibrated
-against Anne's songs first. Every threshold below is a starting value.
+against real songs first. Every threshold below is a starting value.
 """
 
 from __future__ import annotations

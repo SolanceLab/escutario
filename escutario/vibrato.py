@@ -1,8 +1,8 @@
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Vibrato — the periodic waver of a held note: how fast (Hz) and how wide (cents).
 
-Anne's first ask (16 Sep 2026): "hear the breath, the pitch, feel the vibrato". Escutário's
-own detector, working on the PitchTrack from `pitch.py`. On her first two songs the held
+The first ask (16 Sep 2026): "hear the breath, the pitch, feel the vibrato". Escutário's
+own detector, working on the PitchTrack from `pitch.py`. On the first two songs the held
 notes are sung dead straight, so the honest answer there is "no vibrato", and a detector
 that invents one would be worse than none.
 
