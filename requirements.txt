@@ -1,5 +1,5 @@
 # Third-party packages Escutário and its tests import. yt-dlp and ffmpeg are separate programs (see README), not Python packages here. basic-pitch is installed by `make install` / the README with `--no-deps` (see escutario/notes.py): its own requirements would pull TensorFlow and CoreML.
-beartype==0.22.9
+beartype==0.23.1
 demucs==4.1.0
 einops==0.8.2
 librosa==1.0.0
