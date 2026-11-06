@@ -14,7 +14,20 @@ Escutário runs on your own computer, not in the cloud. You need Python, ffmpeg,
 
 ## Install
 
-Escutário is run from a checkout; there is no plugin or package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
+**As a plugin** (Claude Code and Codex). The plugin teaches your AI to set Escutário up for you, hear a song and open the score. It tells you first that the install downloads several gigabytes of audio libraries.
+
+```
+claude plugin marketplace add SolanceLab/plugins
+claude plugin install escutario@solancelab
+```
+
+```
+codex plugin marketplace add SolanceLab/plugins
+```
+
+Then install escutario from that store in Codex's plugin list.
+
+**By hand.** Escutário is run from a checkout; there is no package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
 
 **On Windows** there is no `make`. Install ffmpeg and yt-dlp, set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to the absolute paths of their `.exe` files, then from the checkout run `python -m pip install -r requirements.txt` and, to test, `python -m pytest tests`.
 
@@ -95,7 +108,7 @@ While the viewer runs, the same data is served locally: `GET /api/songs`, `GET /
 
 ### Where it began, and what it stands on
 
-- **Escutário was inspired by Maii's [Attune](https://github.com/amarisaster/Attune).**
+- **Escutário was inspired by [Attune](https://github.com/amarisaster/Attune).**
 - **Spotify basic-pitch** (Apache-2.0) — polyphonic note transcription, used through the official package.
 - **CREPE via torchcrepe** (MIT) — pitch network; the decoding is Escutário's own.
 - **Demucs** (Meta, MIT) — six-track separation.

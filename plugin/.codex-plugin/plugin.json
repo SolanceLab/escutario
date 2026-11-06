@@ -1,0 +1,11 @@
+{
+  "name": "escutario",
+  "version": "0.3.0",
+  "description": "Escutário: a local ear for songs. Splits a song into its parts and measures pitch, held notes, riffs, voices, breath and arrivals, then draws a listening score you can play and mark. Runs on your own computer.",
+  "author": {
+    "name": "House of Solance",
+    "url": "https://github.com/SolanceLab"
+  },
+  "license": "PolyForm-Noncommercial-1.0.0",
+  "skills": "./skills/"
+}

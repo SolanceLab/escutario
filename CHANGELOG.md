@@ -2,6 +2,15 @@
 
 All notable changes to Escutário are recorded here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses [Semantic Versioning](https://semver.org/).
 
+## [0.3.0]
+
+### Added
+- Installable as a plugin for Claude Code and Codex: a skill that sets Escutário up once on your computer (a pinned checkout, a virtual environment, the Python packages), hears a song, opens the listening score and reports what was measured with its confidence. The plugin sets nothing up silently: it tells you what will be downloaded first.
+- A test that keeps both plugin manifests, the skill and the changelog on one version.
+
+### Changed
+- The credit line names Attune and its repository only.
+
 ## [0.2.0]
 
 ### Changed

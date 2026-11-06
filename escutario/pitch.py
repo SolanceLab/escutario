@@ -1,3 +1,4 @@
+# Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab/escutario)
 # Escutário — Copyright (c) 2026 House of Solance. PolyForm Noncommercial 1.0.0, see LICENSE.md. Required Notice: Copyright (c) 2026 House of Solance (https://github.com/SolanceLab)
 """Escutário's pitch tracker — one f0 track per separated vocal stem.
 
@@ -93,7 +94,7 @@ def track_pitch(vocal: np.ndarray, sr: int, *, method: str = "auto") -> PitchTra
 
 
 def save_npz(track: PitchTrack, path: str | Path, sr: int) -> None:
-    """Write a track with the keys Maii's pitch.npz used: times, f0, conf, hop_s, sr."""
+    """Write a track with the keys the original pitch.npz used: times, f0, conf, hop_s, sr."""
     np.savez(
         path,
         times=np.asarray(track.times, dtype=np.float64),
