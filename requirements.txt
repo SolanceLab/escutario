@@ -13,7 +13,7 @@ rotary-embedding-torch==0.9.1
 scipy==1.18.1
 soundfile==0.14.0
 torch==2.14.0
-torchaudio==2.11.0
+torchaudio==2.11.1
 torchcrepe==0.0.24
 mir_eval==0.8.2
 pretty_midi==0.2.11.post0
