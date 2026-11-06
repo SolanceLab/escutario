@@ -9,7 +9,7 @@ A local ear for songs. It splits a song into six parts, measures what is in the 
 
 ## Set it up once
 
-Needs Python 3.11 or newer, `ffmpeg` and `yt-dlp` on the computer (on a Mac: `brew install ffmpeg yt-dlp`). On Linux or Windows the user installs them and sets `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths. Check these first and say what is missing.
+Needs Python 3.12 (the version it is tested on; some audio packages have no build for the newest Pythons yet), `ffmpeg` and `yt-dlp` on the computer (on a Mac: `brew install ffmpeg yt-dlp`). On Linux or Windows the user installs them and sets `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths. Check these first and say what is missing.
 
 Tell the user before the install: it downloads several gigabytes of audio libraries (torch, demucs), and model weights on the first song, so it takes a while. Ask where to keep it (default `~/escutario`), then:
 
@@ -18,9 +18,10 @@ git clone --depth 1 --branch v0.3.0 https://github.com/SolanceLab/escutario.git 
 cd ~/escutario
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m pip install --no-deps basic-pitch==0.4.0
 ```
 
-On Windows there is no `make`; use the same commands with the venv's `python`. If the folder exists already, do not clone over it: ask.
+On Windows there is no `make`, and the venv's Python is `.venv\Scripts\python.exe` instead of `.venv/bin/python` (use that path in every command in this skill, and `python` for `python3`). If the folder exists already, do not clone over it: ask.
 
 ## Hear a song
 

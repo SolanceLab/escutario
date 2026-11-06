@@ -27,12 +27,12 @@ codex plugin marketplace add SolanceLab/plugins
 
 Then install escutario from that store in Codex's plugin list.
 
-**By hand.** Escutário is run from a checkout; there is no package to install. You need Python 3.11 or newer, ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
+**By hand.** Escutário is run from a checkout; there is no package to install. You need Python 3.12 (the version it is tested on; some audio packages have no build for the newest Pythons yet), ffmpeg and yt-dlp on your machine first (on a Mac: `brew install ffmpeg yt-dlp`). On Linux, install them with your package manager and set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to their absolute paths (see Settings).
 
-**On Windows** there is no `make`. Install ffmpeg and yt-dlp, set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to the absolute paths of their `.exe` files, then from the checkout run `python -m pip install -r requirements.txt` and, to test, `python -m pytest tests`.
+**On Windows** there is no `make`. Install ffmpeg and yt-dlp, set `ESCUTARIO_YT_DLP` and `ESCUTARIO_FFPROBE` to the absolute paths of their `.exe` files, then from the checkout run `python -m pip install -r requirements.txt`, then `python -m pip install --no-deps basic-pitch==0.4.0`, and, to test, `python -m pytest tests`.
 
 1. Clone the repository and go into it.
-2. Run `make install`. It reads `requirements.txt` and installs the Python packages (librosa, torchcrepe, demucs, basic-pitch and the rest). To keep them separate, make a virtual environment first (`python3 -m venv .venv`); `make` uses it.
+2. Run `make install`. It reads `requirements.txt` and installs the Python packages (librosa, torchcrepe, demucs, basic-pitch and the rest; basic-pitch goes in with `--no-deps` on purpose, so it does not pull TensorFlow). To keep them separate, make a virtual environment first (`python3 -m venv .venv`); `make` uses it.
 3. Run the command line:
 
 ```
